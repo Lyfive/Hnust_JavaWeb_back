@@ -72,9 +72,13 @@ func Add(c *gin.Context) {
 }
 
 func Delete(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Query("id"))
-	fmt.Println(id)
-	msg := models.DeleteOperator(uint(uint64(id)))
+	ids := c.QueryArray("ids")
+	fmt.Println(ids)
+	msg := "Error"
+	for _, id := range ids {
+		x, _ := strconv.Atoi(id)
+		msg = models.DeleteOperator(uint(uint64(x)))
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"msg": msg,
 	})
